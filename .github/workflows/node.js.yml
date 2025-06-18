@@ -11,26 +11,38 @@ on:
 
 jobs:
   build_test:
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
+
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
         node-version: 20
         cache: 'npm'
+
     - name: Install dependencies
       run: npm install
+
     - name: Install Playwright browsers
       run: npx playwright install
+
     - name: Change the backend to localhost
       run: echo "export const settings = {host:\"http://localhost:3030\"}" > src/config.js
+
     - name: Start the Backend
       run: npm run start-be &
+
     - name: Start the Frontend
       run: npm run start-fe &
+
+    - name: Install wait-on
+      run: npm install -g wait-on
+
+    - name: Wait for Frontend
+      run: wait-on http://localhost:3000
+
     - name: Execute the UI tests
       run: npm run test
