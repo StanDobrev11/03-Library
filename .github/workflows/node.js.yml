@@ -32,17 +32,17 @@ jobs:
     - name: Change the backend to localhost
       run: echo "export const settings = {host:\"http://localhost:3030\"}" > src/config.js
 
-    - name: Start the Backend
-      run: npm run start-be &
+    - name: Start Backend
+      run: npm run server &
 
-    - name: Start the Frontend
-      run: npm run start-fe &
+    - name: Start Frontend
+      run: npm start &
 
     - name: Install wait-on
       run: npm install -g wait-on
 
     - name: Wait for Frontend
-      run: wait-on http://localhost:3000
+      run: npx wait-on http://localhost:3000
 
     - name: Execute the UI tests
       run: npm run test
