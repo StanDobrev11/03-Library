@@ -1,0 +1,1 @@
+export const settings = { host: "https://zero3-library-1-lmxu.onrender.com" };
