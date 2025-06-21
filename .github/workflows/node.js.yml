@@ -46,3 +46,27 @@ jobs:
 
     - name: Execute the UI tests
       run: npm run test
+    
+  deploy_be:
+    runs-on: ubuntu-latest
+    needs: build_test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy on Production
+        uses: JorgeLNJunior/render-deploy@v1.4.5
+        with:
+          service_id: ${{ secrets.BACKEND_KEY }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
+  
+  deploy_fe:
+    runs-on: ubuntu-latest
+    needs: build_test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy on Production
+        uses: JorgeLNJunior/render-deploy@v1.4.5
+        with:
+          service_id: ${{ secrets.FRONTEND_KEY }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true    
